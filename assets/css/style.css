@@ -1614,3 +1614,113 @@ a.card-regiao:hover i { color: var(--cor-destaque); }
 @media (max-width: 767px) { .hero__bg { background-image: var(--bg-sm); } }
 .sobre__imagens img, .card-projeto img { height: auto; background: var(--cor-clara); }
 .card-projeto img { height: 100%; }
+
+/* Menu com item Início: hambúrguer abaixo de 1100px para não quebrar linha */
+@media (max-width: 1099px) {
+  .menu, .cabecalho__acoes .btn { display: none; }
+  .menu-toggle { display: grid; place-items: center; }
+}
+
+/* ==========================================================================
+   Botão flutuante do WhatsApp
+   ========================================================================== */
+.wpp-flutuante {
+  position: fixed;
+  right: 28px; bottom: 28px;
+  z-index: 96;
+  width: 64px; height: 64px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  font-size: 34px;
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55);
+  animation: wpp-vibrar 4s ease-in-out infinite;
+}
+.wpp-flutuante::before, .wpp-flutuante::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 3px solid #25d366;
+  animation: wpp-pulso 2s ease-out infinite;
+  pointer-events: none;
+}
+.wpp-flutuante::after { animation-delay: 1s; }
+.wpp-flutuante:hover { background: #1ebe5b; transform: scale(1.08); animation-play-state: paused; }
+.wpp-flutuante i { position: relative; z-index: 1; }
+.wpp-flutuante__balao {
+  position: absolute;
+  right: 78px; top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: #fff;
+  color: var(--cor-escura);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 16px;
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  animation: wpp-balao 12s ease-in-out 3s infinite;
+}
+.wpp-flutuante__balao::after {
+  content: '';
+  position: absolute;
+  right: -6px; top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 12px; height: 12px;
+  background: #fff;
+}
+.wpp-flutuante:hover .wpp-flutuante__balao { opacity: 1; animation: none; }
+
+@keyframes wpp-pulso {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+@keyframes wpp-vibrar {
+  0%, 78%, 100% { transform: rotate(0) scale(1); }
+  80% { transform: rotate(-14deg) scale(1.1); }
+  83% { transform: rotate(12deg) scale(1.1); }
+  86% { transform: rotate(-10deg) scale(1.1); }
+  89% { transform: rotate(8deg) scale(1.05); }
+  92% { transform: rotate(-4deg) scale(1); }
+}
+@keyframes wpp-balao {
+  0%, 4% { opacity: 0; }
+  8%, 40% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
+
+/* voltar ao topo fica acima do WhatsApp */
+.voltar-topo { bottom: 106px; right: 35px; }
+
+@media (max-width: 991px) {
+  .wpp-flutuante { right: 16px; bottom: 70px; width: 58px; height: 58px; font-size: 30px; }
+  .wpp-flutuante__balao { display: none; }
+  .voltar-topo { bottom: 140px; right: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wpp-flutuante, .wpp-flutuante::before, .wpp-flutuante::after { animation: none !important; }
+}
+
+/* Cards de hub com foto */
+.card-hub { padding: 0 24px 26px; overflow: hidden; }
+.card-hub__foto {
+  display: block;
+  margin: 0 -24px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--cor-clara);
+}
+.card-hub__foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+.card-hub:hover .card-hub__foto img { transform: scale(1.08); }
+.card-hub__icone {
+  position: relative;
+  margin: -29px 0 16px;
+  background: var(--branco);
+  box-shadow: 0 8px 20px rgba(var(--cor-escura-rgb), 0.15);
+  z-index: 1;
+}
+.card-hub:hover .card-hub__icone { background: var(--cor-base); color: var(--cor-destaque); }

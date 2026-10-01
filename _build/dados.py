@@ -150,7 +150,7 @@ HUBS = [
         "destaques": ["Consultoria técnica online", "Consultoria técnica internacional", "Segunda opinião técnica sobre obra em andamento", "Visita técnica", "Revisão técnica de proposta de construtora", "Consultoria técnica presencial"],
         "form": "consultoria",
         "faq": [
-            ("Como funciona a consultoria on-line?", "Você envia fotos, projetos ou documentos e fazemos uma reunião por vídeo com um engenheiro, que orienta sobre o problema e os próximos passos."),
+            ("Como funciona a consultoria on-line?", "Você envia fotos, projetos ou documentos e fazemos uma reunião por vídeo com nosso engenheiro, que orienta sobre o problema e os próximos passos."),
             ("O que é segunda opinião técnica?", "É a avaliação independente de uma obra, orçamento ou diagnóstico feito por outro profissional, para você decidir com segurança."),
             ("Vocês analisam a proposta de uma construtora?", "Sim. Revisamos escopo, especificações, cronograma e preços para identificar lacunas antes de você assinar."),
         ],
@@ -289,6 +289,7 @@ FORM_TIPOS = [
 
 # Menu principal (aba Menu)
 MENU = [
+    ("/", "Início", None),
     ("/servicos/", "Serviços", "servicos"),
     ("/marcas-e-sistemas/", "Marcas e Sistemas", "marcas"),
     ("/para-voce/", "Para você", None),

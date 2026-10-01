@@ -79,7 +79,7 @@ def mega_servicos():
           </div>''')
     return f'''<div class="mega">
         <div class="mega__grid">{"".join(cols)}</div>
-        <div class="mega__rodape">Não sabe qual serviço precisa? <a href="/para-voce/">Veja soluções pelo seu perfil</a> ou <a href="/solicitar-proposta/">fale com um engenheiro</a>.</div>
+        <div class="mega__rodape">Não sabe qual serviço precisa? <a href="/para-voce/">Veja soluções pelo seu perfil</a> ou <a href="/solicitar-proposta/">fale com nosso engenheiro</a>.</div>
       </div>'''
 
 
@@ -260,6 +260,11 @@ def foot():
     <a class="prop" href="/solicitar-proposta/"><i class="fa-solid fa-file-pen"></i> Solicitar proposta</a>
   </div>
 
+  <a class="wpp-flutuante" href="https://wa.me/{E["wpp_link"]}?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20VAFF%20Engenharia%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="wpp-flutuante__balao">Fale com nosso engenheiro</span>
+  </a>
+
   <button class="voltar-topo" type="button" aria-label="Voltar ao topo"><i class="fa-solid fa-arrow-up"></i></button>
 
   <script src="/assets/js/main.js"></script>
@@ -289,7 +294,9 @@ def titulo_secao(sub, h2, p="", centro=True, claro=False, h="h2"):
 def cards_hubs(lista=HUBS):
     out = []
     for i, h in enumerate(lista):
+        foto = f'/assets/img/fotos/hub-{h["slug"]}'
         out.append(f'''<a href="/{h["slug"]}/" class="card-hub anima" data-atraso="{i % 4}">
+          <span class="card-hub__foto"><img src="{foto}-640.webp" srcset="{foto}-400.webp 400w, {foto}-640.webp 640w" sizes="(max-width: 767px) 100vw, (max-width: 1199px) 33vw, 280px" width="640" height="400" alt="" loading="lazy" decoding="async"></span>
           <span class="card-hub__icone"><i class="{h["icone"]}"></i></span>
           <h3>{h["nome"]}</h3>
           <p>{h["resumo"]}</p>

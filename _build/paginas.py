@@ -162,7 +162,7 @@ def gerar_subhub(url):
       <div class="anima">
         {B.titulo_secao(h["nome"], f"{escape(kw)} com a <span>VAFF</span>", centro=False)}
         {f'<p class="sobre__destaque">{escape(pq)}</p>' if pq else ""}
-        <p>Reunimos aqui os serviços de {escape(I.minus(kw))} que a VAFF Engenharia realiza na Grande Florianópolis e em Santa Catarina. Escolha o serviço mais próximo da sua necessidade ou fale com um engenheiro para receber orientação.</p>
+        <p>Reunimos aqui os serviços de {escape(I.minus(kw))} que a VAFF Engenharia realiza na Grande Florianópolis e em Santa Catarina. Escolha o serviço mais próximo da sua necessidade ou fale com nosso engenheiro para receber orientação.</p>
       </div>
       {caixa_proposta(h["form"])}
     </div>
@@ -466,7 +466,7 @@ def gerar_guia(url):
       <div class="anima">
         {B.titulo_secao("Guia gratuito", escape(kw), centro=False)}
         <p class="sobre__destaque">Material prático da VAFF Engenharia para você se organizar e tomar decisões com mais segurança{f" em {escape(I.minus(h['nome']))}" if h else ""}.</p>
-        <p>Preencha o formulário para receber o guia por e-mail. Se quiser conversar com um engenheiro sobre o seu caso, é só responder a mensagem.</p>
+        <p>Preencha o formulário para receber o guia por e-mail. Se quiser conversar com nosso engenheiro sobre o seu caso, é só responder a mensagem.</p>
         {f'<a href="{p["pai"]}" class="link-mais">Conheça os serviços de {escape(I.minus(h["nome"]))} <i class="fa-solid fa-arrow-right"></i></a>' if h else ""}
       </div>
       <div class="anima" data-atraso="1">
@@ -584,9 +584,9 @@ def gerar_perfis():
       <div class="anima">
         {B.titulo_secao("Para você", f"Engenharia para <span>{escape(nome_p.lower())}</span>", centro=False)}
         <p class="sobre__destaque">{escape(d)}</p>
-        <p>Selecionamos os serviços que mais fazem diferença para o seu perfil. Se não encontrar exatamente o que procura, fale com um engenheiro e indicamos o caminho certo.</p>
+        <p>Selecionamos os serviços que mais fazem diferença para o seu perfil. Se não encontrar exatamente o que procura, fale com nosso engenheiro e indicamos o caminho certo.</p>
       </div>
-      {caixa_proposta("obra-ou-reforma", "Fale com um engenheiro")}
+      {caixa_proposta("obra-ou-reforma", "Fale com nosso engenheiro")}
     </div>
   </section>
   <section class="secao secao--clara">

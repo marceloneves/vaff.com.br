@@ -128,7 +128,7 @@ def para_quem(txt):
     primeira = frase.split()[0].rstrip(",")
     if primeira in ("A", "O", "Existe", "É", "Florianópolis"):
         return ""
-    corpo = frase[0].lower() + frase[1:]
+    corpo = (frase[0].lower() + frase[1:]).replace("com um engenheiro", "com nosso engenheiro")
     return ("Para quem " if primeira in VERBOS else "Indicado para ") + corpo + "."
 
 
