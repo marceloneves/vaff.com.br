@@ -297,3 +297,51 @@ MENU = [
     ("/blog/", "Conteúdo", None),
     ("/contato/", "Contato", None),
 ]
+
+# ---------------------------------------------------------------------------
+# Complementos da arquitetura (aba Arquitetura)
+# ---------------------------------------------------------------------------
+PERFIL_URL = {
+    "proprietarios": "/para-proprietarios/", "sindicos": "/para-sindicos/", "empresas": "/para-empresas/",
+    "incorporadores": "/para-incorporadores/", "arquitetos": "/para-arquitetos/", "advogados": "/para-advogados/",
+    "corretores": "/para-corretores/", "quem-mora-fora": "/para-quem-mora-fora/",
+}
+
+OBRAS_CATEGORIAS_PAGINAS = OBRAS_CATEGORIAS + [("obras-premiadas", "Obras premiadas"), ("fora-santa-catarina", "Fora de Santa Catarina")]
+
+REGIAO_SLUG = {
+    "Florianópolis": "florianopolis", "São José": "sao-jose", "Palhoça": "palhoca", "Biguaçu": "biguacu",
+    "Governador Celso Ramos": "governador-celso-ramos", "Santo Amaro da Imperatriz": "santo-amaro-imperatriz",
+    "Paulo Lopes": "paulo-lopes", "Balneário Camboriú": "balneario-camboriu", "Itajaí": "itajai",
+    "Itapema": "itapema", "Joinville": "joinville", "Blumenau": "blumenau",
+}
+GRANDE_FLORIPA = {"Florianópolis", "São José", "Palhoça", "Biguaçu", "Governador Celso Ramos", "Santo Amaro da Imperatriz", "Paulo Lopes"}
+
+# Indexação: tipos de página publicados com noindex (fora do sitemap) até haver
+# conteúdo único (obra real, fotos, particularidades do local). Ver aba Leia-me.
+NOINDEX_TIPOS = {"Página local", "Página local de bairro", "Página de marca por serviço"}
+NOINDEX_URLS = {"/sobre/reconhecimentos/", "/sobre/depoimentos/"}  # + categorias de obras sem obra publicada
+
+# Descrição neutra de cada sistema construtivo (páginas /marcas-e-sistemas/sistemas-construtivos/...)
+SISTEMAS_DESC = {
+    "Steel frame": "Estrutura de perfis leves de aço galvanizado formados a frio, com fechamento em placas. É uma obra seca, rápida e com pouca geração de resíduos.",
+    "Wood frame": "Estrutura de peças de madeira de reflorestamento tratada, com fechamento em placas. Construção industrializada, rápida e com bom desempenho térmico.",
+    "Estrutura metálica": "Pilares e vigas de aço laminado ou soldado. Vence grandes vãos com montagem rápida e é muito usada em galpões, edifícios comerciais e ampliações.",
+    "Concreto armado": "O sistema mais usado no Brasil: pilares, vigas e lajes de concreto com armaduras de aço. Versátil, durável e adaptável a quase qualquer projeto.",
+    "Alvenaria estrutural": "As paredes de blocos estruturais sustentam a edificação, dispensando pilares e vigas. É econômica, mas exige projeto rigoroso e limita alterações futuras nas paredes.",
+    "Madeira laminada cruzada": "Painéis de lâminas de madeira coladas em camadas cruzadas (CLT), usados em paredes e lajes. Obra limpa, rápida e com baixa pegada de carbono.",
+    "Pré-moldado de concreto": "Elementos de concreto fabricados fora do canteiro e montados na obra, com controle de qualidade industrial e prazo reduzido.",
+    "Paredes de concreto": "Paredes moldadas no local com fôrmas, já com as instalações embutidas. Alta produtividade em obras com repetição de unidades.",
+    "Concreto protendido": "Concreto com cabos de aço tensionados, que permite vãos maiores, lajes mais esbeltas e menos pilares.",
+    "Laje nervurada": "Laje com nervuras que reduzem o peso próprio e permitem grandes vãos livres com menos pilares.",
+    "Laje alveolar": "Painéis pré-fabricados de concreto protendido com alvéolos internos. Montagem rápida e grandes vãos sem escoramento extenso.",
+    "Construção a seco": "Sistemas que dispensam argamassa e água em grande escala, como drywall, steel frame e painéis. Obra limpa, rápida e previsível.",
+    "Casa modular": "Módulos produzidos em fábrica e montados no terreno, com prazo curto e maior previsibilidade de custo.",
+    "Bloco de concreto celular": "Bloco leve, com bom isolamento térmico e acústico, fácil de cortar e de assentar.",
+    "Painel de EPS": "Painéis de poliestireno expandido com tela de aço e revestimento argamassado. Leves e com bom isolamento térmico.",
+    "Tijolo ecológico": "Tijolo de solo-cimento prensado, sem queima, com encaixes que facilitam o assentamento e a passagem das instalações.",
+    "Fachada ventilada": "Revestimento fixado em uma estrutura afastada da parede, criando uma câmara de ar que melhora o conforto térmico e protege contra infiltrações.",
+    "Telhado verde": "Cobertura com vegetação sobre camadas de impermeabilização e drenagem, que contribui para o conforto térmico e retém água da chuva.",
+    "Telhado shingle": "Telhas asfálticas flexíveis aplicadas sobre base de placas. Cobertura leve, estanque e de estética marcante.",
+    "Telha termoacústica": "Telha tipo sanduíche, com núcleo isolante entre chapas metálicas, que reduz a entrada de calor e de ruído.",
+}

@@ -1560,3 +1560,51 @@ a.chip:hover i { color: var(--cor-destaque); }
   .regioes__grid { grid-template-columns: 1fr 1fr; }
   .perfil-bloco { grid-template-columns: 1fr; gap: 18px; }
 }
+
+/* ==========================================================================
+   Páginas da planilha — cards de link e termos relacionados
+   ========================================================================== */
+.links__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.card-link {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 26px 22px;
+  background: var(--branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  border-left: 4px solid var(--cor-base);
+  transition: var(--transicao);
+}
+.card-link:hover { transform: translateY(-4px); box-shadow: var(--sombra); border-left-color: var(--cor-destaque); }
+.card-link h3 { font-size: 18px; margin-bottom: 8px; }
+.card-link p { font-size: 14px; line-height: 1.6; margin-bottom: 14px; flex: 1; }
+.card-link .link-mais { font-size: 14px; margin-top: auto; }
+a.card-subhub { display: block; }
+.card-subhub p { margin: 8px 0 0 44px; font-size: 14px; color: var(--cor-base); font-weight: 600; }
+.caixa-destaque .lista-check a { color: var(--branco); }
+.caixa-destaque .lista-check a:hover { color: var(--cor-destaque); }
+.card-marca h3 a:hover, .card-marca p a:hover { color: var(--cor-base); }
+.card-marca p a { color: var(--cor-escura); text-decoration: underline; text-decoration-color: var(--cor-borda); text-underline-offset: 3px; }
+a.card-regiao:hover { background: var(--cor-escura); color: var(--branco); }
+a.card-regiao:hover small { color: rgba(255,255,255,0.7); }
+a.card-regiao:hover i { color: var(--cor-destaque); }
+
+.termos__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.card-termo {
+  padding: 24px 26px;
+  background: var(--branco);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  scroll-margin-top: 110px;
+}
+.card-termo h3 { font-size: 18px; margin-bottom: 8px; }
+.card-termo p { font-size: 15px; line-height: 1.65; }
+.card-termo .link-mais { font-size: 14px; margin-left: 6px; }
+.card-termo:target { outline: 2px solid var(--cor-destaque); }
+
+@media (max-width: 991px) {
+  .links__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  .links__grid, .termos__grid { grid-template-columns: 1fr; }
+}

@@ -10,8 +10,11 @@ import json
 import os
 from html import escape
 
+import sys
+
 from dados import (EMPRESA as E, HUBS, HUB, MARCAS, PERFIS, OBRAS, OBRAS_CATEGORIAS,
-                   REGIOES, FORM_TIPOS, MENU)
+                   REGIOES, FORM_TIPOS, MENU, PERFIL_URL, REGIAO_SLUG, OBRAS_CATEGORIAS_PAGINAS)
+import indice as I
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ANO = 2026
@@ -69,7 +72,7 @@ def logo(branco=False):
 def mega_servicos():
     cols = []
     for h in HUBS:
-        itens = "".join(f'<li><a href="/{h["slug"]}/#servicos">{escape(d)}</a></li>' for d in h["destaques"][:4])
+        itens = "".join(f'<li><a href="{I.url_por_palavra(d, "/" + h["slug"] + "/")}">{escape(d)}</a></li>' for d in h["destaques"][:4])
         cols.append(f'''<div class="mega__col">
             <h4><a href="/{h["slug"]}/"><i class="{h["icone"]}"></i>{h["nome"]}</a></h4>
             <ul>{itens}<li><a class="ver-todos" href="/{h["slug"]}/">Ver todos &rarr;</a></li></ul>
@@ -113,15 +116,19 @@ def menu_mobile():
 # ===========================================================================
 # Cabeçalho e rodapé
 # ===========================================================================
-def head(titulo, desc, atual="", ld=None):
+def head(titulo, desc, atual="", ld=None, url=None, noindex=False):
     ld_html = "\n  ".join(jsonld(x) for x in (ld or []))
+    if url and noindex:
+        NOINDEX.add(url)
+    robots = '\n  <meta name="robots" content="noindex, follow">' if noindex else ""
+    canonical = f'\n  <link rel="canonical" href="{E["site"]}{url}">' if url else ""
     return f'''<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{escape(titulo)}</title>
-  <meta name="description" content="{escape(desc)}">
+  <meta name="description" content="{escape(desc)}">{robots}{canonical}
   <meta property="og:title" content="{escape(titulo)}">
   <meta property="og:description" content="{escape(desc)}">
   <meta property="og:type" content="website">
@@ -204,7 +211,7 @@ CTA = '''
 
 def foot():
     hubs = "".join(f'<li><a href="/{h["slug"]}/">{h["nome"]}</a></li>' for h in HUBS)
-    regs = "".join(f'<li><a href="/regioes/">{c}</a></li>' for c, _ in REGIOES[:8])
+    regs = "".join(f'<li><a href="/regioes/{REGIAO_SLUG[c]}/">{c}</a></li>' for c, _ in REGIOES[:8])
     return f'''
   <footer class="rodape">
     <div class="container rodape__principal">
@@ -362,6 +369,7 @@ def escrever(url, html):
 
 
 PAGINAS = []
+NOINDEX = set()
 
 
 # ===========================================================================
@@ -538,7 +546,7 @@ def pagina_home():
 def pagina_servicos():
     blocos = []
     for h in HUBS:
-        subs = "".join(f'<a class="chip" href="/{h["slug"]}/#subhubs"><i class="fa-solid fa-angle-right"></i>{s}</a>' for s in h["subhubs"])
+        subs = "".join(f'<a class="chip" href="{u}"><i class="fa-solid fa-angle-right"></i>{escape(I.nome(u))}</a>' for u in I.subhubs_do_hub(h["nome"]))
         blocos.append(f'''<div class="perfil-bloco anima" id="{h["slug"]}">
           <span class="perfil-bloco__icone"><i class="{h["icone"]}"></i></span>
           <div>
@@ -571,9 +579,10 @@ def pagina_servicos():
 # Páginas pilar dos hubs
 # ===========================================================================
 def pagina_hub(h):
-    subs = "\n".join(f'<div class="card-subhub anima" data-atraso="{i % 3}"><h3><span>{i + 1:02d}</span>{s}</h3></div>' for i, s in enumerate(h["subhubs"]))
-    dest = "".join(f'<li><i class="fa-solid fa-check"></i> {d}</li>' for d in h["destaques"])
-    personas = "".join(f'<span class="chip"><i class="fa-solid fa-user"></i>{p}</span>' for p in h["personas"])
+    subs = "\n".join(f'<a href="{u}" class="card-subhub anima" data-atraso="{i % 3}"><h3><span>{i + 1:02d}</span>{escape(I.nome(u))}</h3><p>{len(I.filhos(u, "Página de serviço"))} serviços</p></a>'
+                     for i, u in enumerate(I.subhubs_do_hub(h["nome"])))
+    dest = "".join(f'<li><i class="fa-solid fa-check"></i> <a href="{I.url_por_palavra(d, "#subhubs")}">{d}</a></li>' for d in h["destaques"])
+    guias = I.guias_do_hub(h["slug"])
     relacionados = [x for x in HUBS if x["slug"] != h["slug"]]
     idx = HUBS.index(h)
     rel = [relacionados[(idx + k) % len(relacionados)] for k in range(4)]
@@ -587,10 +596,10 @@ def pagina_hub(h):
           {"@context": "https://schema.org", "@type": "Service", "name": h["pilar"], "serviceType": h["nome"],
            "description": h["resumo"], "provider": {"@type": "GeneralContractor", "name": E["nome"], "url": E["site"]},
            "areaServed": [c for c, _ in REGIOES], "url": f'{E["site"]}/{h["slug"]}/'},
-          breadcrumb_ld([("Início", "/"), ("Serviços", "/servicos/"), (h["nome"], f'/{h["slug"]}/')]),
+          breadcrumb_ld([("Início", "/"), (h["nome"], f'/{h["slug"]}/')]),
           faq_ld(h["faq"])]
-    html = head(f'{h["pilar"]} — VAFF Engenharia', f'{h["pilar"]}: {h["resumo"]} Atendimento na Grande Florianópolis e em SC.', "/servicos/", ld) \
-        + page_header(h["nome"], [("Serviços", "/servicos/")]) + f'''
+    html = head(f'{h["pilar"]} — VAFF Engenharia', f'{h["pilar"]}: {h["resumo"]} Atendimento na Grande Florianópolis e em SC.', "/servicos/", ld, url=f'/{h["slug"]}/') \
+        + page_header(h["nome"], []) + f'''
   <main>
   <section class="secao">
     <div class="container pilar__intro">
@@ -598,14 +607,12 @@ def pagina_hub(h):
         {titulo_secao(h["nome"], h["pilar"], centro=False)}
         <p class="sobre__destaque">{h["resumo"]}</p>
         <p>Na VAFF, cada serviço de {h["nome"].lower()} é conduzido por um engenheiro responsável, com escopo claro, cronograma e ART. Você sabe o que está sendo feito, por quê e quanto custa, do primeiro contato à entrega.</p>
-        <h3 style="margin:30px 0 14px;font-size:20px">Para quem é</h3>
-        <div class="chips">{personas}</div>
         {marcas_html}
       </div>
       <aside class="caixa-destaque anima" data-atraso="1" id="servicos">
         <h3>Serviços em destaque</h3>
         <ul class="lista-check">{dest}</ul>
-        <a href="/solicitar-proposta/?tipo={h["form"]}" class="btn btn--destaque">Solicitar proposta <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="/solicitar-proposta/{h["form"]}/" class="btn btn--destaque">Solicitar proposta <i class="fa-solid fa-arrow-right"></i></a>
       </aside>
     </div>
   </section>
@@ -618,7 +625,14 @@ def pagina_hub(h):
       </div>
     </div>
   </section>
-''' + processo() + f'''
+''' + processo() + (f'''
+  <section class="secao">
+    <div class="container">
+      {titulo_secao("Materiais gratuitos", "Guias e <span>ferramentas</span>")}
+      <div class="links__grid">{"".join(f'<a href="{u}" class="card-link anima"><h3>{escape(I.nome(u))}</h3><span class="link-mais">Acessar <i class="fa-solid fa-arrow-right"></i></span></a>' for u in guias)}</div>
+    </div>
+  </section>
+''' if guias else "") + f'''
   <section class="secao secao--clara">
     <div class="container">
       {titulo_secao("Dúvidas frequentes", f'Perguntas sobre {h["nome"].lower()}')}
@@ -646,8 +660,8 @@ def pagina_marcas():
     grupos = []
     for grupo, cats in MARCAS:
         cards = "".join(f'''<div class="card-marca anima" id="{s}">
-            <h3><i class="{ic}"></i>{n}</h3>
-            <p>{marcas}</p>
+            <h3><i class="{ic}"></i><a href="/marcas-e-sistemas/{s}/">{n}</a></h3>
+            <p>{", ".join(f'<a href="{u}">{escape(I.PAG[u]["row"]["Marca / Operadora"] if I.PAG[u]["tipo"] == "Página de marca" else I.nome(u))}</a>' for u in I.filhos(f"/marcas-e-sistemas/{s}/", "Página de marca", "Página de sistema construtivo")) or marcas}</p>
             <p class="relacionados">Serviços relacionados: {", ".join(f'<a href="/{x}/">{HUB[x]["nome"]}</a>' for x in hubs)}</p>
           </div>''' for s, n, ic, marcas, hubs in cats)
         grupos.append(f'<div class="marcas__grupo"><h2>{grupo}</h2><div class="marcas__grid">{cards}</div></div>')
@@ -680,7 +694,7 @@ def pagina_para_voce():
             <h2>Para {n.lower()}</h2>
             <p>{d}</p>
             <div class="chips">{chips}</div>
-            <a href="/solicitar-proposta/" class="link-mais">Falar com um engenheiro <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="{PERFIL_URL[s]}" class="link-mais">Ver soluções para {n.lower()} <i class="fa-solid fa-arrow-right"></i></a>
           </div>
         </div>''')
     html = head("Soluções por perfil — VAFF Engenharia", "Proprietários, síndicos, empresas, incorporadores, arquitetos, advogados, corretores e quem mora fora: encontre a solução de engenharia certa para você.",
@@ -719,6 +733,7 @@ def pagina_obras():
       <div class="projetos__grid">
 {cards}
       </div>
+      <div class="chips" style="justify-content:center;margin-top:40px">{"".join(f'<a class="chip" href="/obras/{s}/"><i class="fa-solid fa-folder-open"></i>{n}</a>' for s, n in OBRAS_CATEGORIAS_PAGINAS)}</div>
       <p class="obras__aviso">Em breve: cada obra com desafio, solução, prazo, fotos e depoimento do cliente.</p>
     </div>
   </section>
@@ -755,6 +770,13 @@ def pagina_sobre():
           <li><i class="fa-solid fa-check"></i> Equipe multidisciplinar</li>
           <li><i class="fa-solid fa-check"></i> Suporte pós-obra</li>
         </ul>
+        <div class="chips" style="margin-bottom:30px">
+          <a class="chip" href="/sobre/equipe/"><i class="fa-solid fa-users"></i>Equipe</a>
+          <a class="chip" href="/sobre/metodo/"><i class="fa-solid fa-diagram-project"></i>Como trabalhamos</a>
+          <a class="chip" href="/sobre/reconhecimentos/"><i class="fa-solid fa-award"></i>Reconhecimentos</a>
+          <a class="chip" href="/sobre/depoimentos/"><i class="fa-solid fa-comment-dots"></i>Depoimentos</a>
+          <a class="chip" href="/sobre/garantia/"><i class="fa-solid fa-shield-halved"></i>Garantia</a>
+        </div>
         <a href="/solicitar-proposta/" class="btn btn--base">Solicitar proposta <i class="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
@@ -821,8 +843,12 @@ def pagina_blog():
   <main>
   <section class="secao">
     <div class="container texto-corrido" style="text-align:center">
-      {titulo_secao("Blog, guias e ferramentas", "Conteúdo técnico em <span>breve</span>", "Estamos preparando artigos, guias para download e calculadoras para ajudar você a tomar decisões melhores sobre o seu imóvel.")}
-      <a href="/perguntas-frequentes/" class="btn btn--base">Ver perguntas frequentes <i class="fa-solid fa-arrow-right"></i></a>
+      {titulo_secao("Blog, guias e ferramentas", "Conteúdo para decidir <span>melhor</span>", "Guias práticos, ferramentas e respostas para as dúvidas mais comuns. Os artigos do blog serão publicados em breve.")}
+      <div class="hero__botoes" style="justify-content:center">
+        <a href="/guias/" class="btn btn--base">Guias gratuitos <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="/ferramentas/" class="btn btn--escuro">Ferramentas</a>
+        <a href="/perguntas-frequentes/" class="btn btn--escuro">Perguntas frequentes</a>
+      </div>
     </div>
   </section>
   </main>
@@ -853,7 +879,7 @@ def pagina_faq():
 # Regiões
 # ===========================================================================
 def pagina_regioes():
-    cards = "".join(f'<div class="card-regiao anima"><i class="fa-solid fa-location-dot"></i><div>{c}<small>{r}</small></div></div>' for c, r in REGIOES)
+    cards = "".join(f'<a href="/regioes/{REGIAO_SLUG[c]}/" class="card-regiao anima"><i class="fa-solid fa-location-dot"></i><div>{c}<small>{r}</small></div></a>' for c, r in REGIOES)
     html = head("Regiões atendidas — VAFF Engenharia", "A VAFF Engenharia atende Florianópolis, São José, Palhoça, Biguaçu, Balneário Camboriú, Itajaí, Joinville, Blumenau e todo o estado de Santa Catarina.",
                 "", [org_ld(), breadcrumb_ld([("Início", "/"), ("Regiões atendidas", "/regioes/")])]) + page_header("Regiões atendidas", []) + f'''
   <main>
@@ -904,7 +930,7 @@ def pagina_contato():
 
 
 def pagina_proposta():
-    tipos = "".join(f'<a class="chip" href="/solicitar-proposta/?tipo={s}"><i class="fa-solid fa-file-pen"></i>{n}</a>' for s, n in FORM_TIPOS)
+    tipos = "".join(f'<a class="chip" href="/solicitar-proposta/{s}/"><i class="fa-solid fa-file-pen"></i>{n}</a>' for s, n in FORM_TIPOS)
     html = head("Solicitar proposta — VAFF Engenharia", "Solicite uma proposta para obra, reforma, laudo, vistoria, projeto, condomínio ou consultoria. Um engenheiro da VAFF retorna o seu contato.",
                 "", [org_ld(), breadcrumb_ld([("Início", "/"), ("Solicitar proposta", "/solicitar-proposta/")])]) + page_header("Solicitar proposta", []) + f'''
   <main>
@@ -969,7 +995,7 @@ def pagina_privacidade():
 # Sitemap, robots e 404
 # ===========================================================================
 def extras():
-    urls = "".join(f"  <url><loc>{E['site']}{u}</loc></url>\n" for u in PAGINAS if u != "/404/")
+    urls = "".join(f"  <url><loc>{E['site']}{u}</loc></url>\n" for u in PAGINAS if u not in NOINDEX)
     with open(os.path.join(RAIZ, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     with open(os.path.join(RAIZ, "robots.txt"), "w", encoding="utf-8") as f:
@@ -1012,5 +1038,7 @@ if __name__ == "__main__":
     pagina_contato()
     pagina_proposta()
     pagina_privacidade()
+    import paginas
+    paginas.gerar(sys.modules[__name__])
     extras()
-    print(f"{len(PAGINAS)} páginas geradas.")
+    print(f"{len(PAGINAS)} páginas geradas ({len(PAGINAS) - len(NOINDEX)} indexáveis, {len(NOINDEX)} noindex).")
