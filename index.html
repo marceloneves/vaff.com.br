@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VAFF Engenharia — Construção, reformas, projetos e laudos em Florianópolis</title>
   <meta name="description" content="Engenharia de alto padrão livre de dor de cabeça: construção, reformas, projetos, laudos, vistorias e regularização na Grande Florianópolis e em SC.">
+  <link rel="canonical" href="https://www.vaff.com.br/">
   <meta property="og:title" content="VAFF Engenharia — Construção, reformas, projetos e laudos em Florianópolis">
   <meta property="og:description" content="Engenharia de alto padrão livre de dor de cabeça: construção, reformas, projetos, laudos, vistorias e regularização na Grande Florianópolis e em SC.">
   <meta property="og:type" content="website">
@@ -18,6 +19,8 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,400..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="preload" as="image" href="/assets/img/fotos/hero-obra-amanhecer-1920.webp" media="(min-width: 768px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/img/fotos/hero-obra-amanhecer-960.webp" media="(max-width: 767px)" fetchpriority="high">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "GeneralContractor", "name": "VAFF Engenharia", "legalName": "VAFF Engenharia Ltda.", "url": "https://www.vaff.com.br", "logo": "https://www.vaff.com.br/assets/img/logo-vaff.png", "telephone": "+554833758253", "email": "contato@vaff.com.br", "foundingDate": "2014", "slogan": "Engenharia de alto padrão, livre de dor de cabeça.", "address": {"@type": "PostalAddress", "streetAddress": "Av. Nossa Senhora Aparecida, 746, sala 02", "addressLocality": "São José", "addressRegion": "SC", "addressCountry": "BR"}, "areaServed": ["Florianópolis", "São José", "Palhoça", "Biguaçu", "Governador Celso Ramos", "Santo Amaro da Imperatriz", "Paulo Lopes", "Balneário Camboriú", "Itajaí", "Itapema", "Joinville", "Blumenau"], "sameAs": ["https://www.instagram.com/vaffengenharia/"]}</script>
 </head>
 <body>
@@ -124,7 +127,7 @@
   <main>
   <section class="hero" aria-label="Destaques">
     <div class="hero__slide ativo">
-      <div class="hero__bg" style="background-image:url('/assets/img/hero-1.svg')"></div>
+      <div class="hero__bg" style="--bg-lg:url('/assets/img/fotos/hero-obra-amanhecer-1920.webp');--bg-sm:url('/assets/img/fotos/hero-obra-amanhecer-960.webp')"></div>
       <div class="container">
         <div class="hero__conteudo">
           <span class="hero__etiqueta"><i class="fa-solid fa-helmet-safety"></i> Engenharia de alto padrão</span>
@@ -138,7 +141,7 @@
       </div>
     </div>
     <div class="hero__slide">
-      <div class="hero__bg" style="background-image:url('/assets/img/hero-3.svg')"></div>
+      <div class="hero__bg" style="--bg-lg:url('/assets/img/fotos/hero-engenheiros-predio-1920.webp');--bg-sm:url('/assets/img/fotos/hero-engenheiros-predio-960.webp')"></div>
       <div class="container">
         <div class="hero__conteudo">
           <span class="hero__etiqueta"><i class="fa-solid fa-helmet-safety"></i> Construção e reformas</span>
@@ -152,7 +155,7 @@
       </div>
     </div>
     <div class="hero__slide">
-      <div class="hero__bg" style="background-image:url('/assets/img/hero-2.svg')"></div>
+      <div class="hero__bg" style="--bg-lg:url('/assets/img/fotos/hero-equipe-topografia-1920.webp');--bg-sm:url('/assets/img/fotos/hero-equipe-topografia-960.webp')"></div>
       <div class="container">
         <div class="hero__conteudo">
           <span class="hero__etiqueta"><i class="fa-solid fa-helmet-safety"></i> Laudos e vistorias</span>
@@ -255,8 +258,8 @@
   <section class="secao">
     <div class="container sobre__grid">
       <div class="sobre__imagens anima">
-        <img class="img-principal" src="/assets/img/sobre-1.svg" alt="Equipe VAFF em obra" loading="lazy">
-        <img class="img-secundaria" src="/assets/img/sobre-2.svg" alt="Vistoria técnica" loading="lazy">
+        <img class="img-principal" src="/assets/img/fotos/sobre-supervisor-equipe-800.webp" srcset="/assets/img/fotos/sobre-supervisor-equipe-480.webp 480w, /assets/img/fotos/sobre-supervisor-equipe-800.webp 800w" sizes="(max-width: 991px) 90vw, 520px" width="800" height="880" alt="Engenheiro revisando o projeto com a equipe na obra" loading="lazy" decoding="async">
+        <img class="img-secundaria" src="/assets/img/fotos/sobre-capacete-tijolos-600.webp" srcset="/assets/img/fotos/sobre-capacete-tijolos-360.webp 360w, /assets/img/fotos/sobre-capacete-tijolos-600.webp 600w" sizes="(max-width: 767px) 50vw, 300px" width="600" height="600" alt="Capacete de segurança sobre tijolos" loading="lazy" decoding="async">
         <div class="selo-experiencia"><strong>12</strong><span>anos de<br>experiência</span></div>
       </div>
       <div class="sobre__texto anima" data-atraso="1">
@@ -332,33 +335,33 @@
   <section class="secao">
     <div class="container">
       <div class="projetos__topo">
-        <div class="titulo-secao anima"><span class="subtitulo">Obras</span><h2>Obras que falam por <span>nós</span></h2></div>
-        <a href="/obras/" class="btn btn--escuro">Ver portfólio <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="titulo-secao anima"><span class="subtitulo">Nossa atuação</span><h2>Engenharia em cada <span>etapa da obra</span></h2></div>
+        <a href="/servicos/" class="btn btn--escuro">Ver todos os serviços <i class="fa-solid fa-arrow-right"></i></a>
       </div>
       <div class="projetos__grid">
         <article class="card-projeto anima" data-atraso="0">
-          <img src="/assets/img/projeto-1.svg" alt="Residência de alto padrão" loading="lazy">
-          <div class="card-projeto__info"><div><span>Residenciais</span><h3>Residência de alto padrão</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
+          <img src="/assets/img/fotos/atuacao-projetos-800.webp" srcset="/assets/img/fotos/atuacao-projetos-480.webp 480w, /assets/img/fotos/atuacao-projetos-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="Engenheiros analisando projetos sobre a mesa" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>Projetos de Engenharia</span><h3>Projetos compatibilizados</h3></div><a href="/projetos/" class="seta" aria-label="Ver Projetos de Engenharia"><i class="fa-solid fa-arrow-right"></i></a></div>
         </article>
         <article class="card-projeto anima" data-atraso="1">
-          <img src="/assets/img/projeto-5.svg" alt="Recuperação de fachada em condomínio" loading="lazy">
-          <div class="card-projeto__info"><div><span>Condomínios</span><h3>Recuperação de fachada em condomínio</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
+          <img src="/assets/img/fotos/atuacao-gestao-obras-800.webp" srcset="/assets/img/fotos/atuacao-gestao-obras-480.webp 480w, /assets/img/fotos/atuacao-gestao-obras-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="Engenheiros conferindo a planta no canteiro de obras" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>Gestão de Obras</span><h3>Fiscalização no canteiro</h3></div><a href="/gestao-de-obras/" class="seta" aria-label="Ver Gestão de Obras"><i class="fa-solid fa-arrow-right"></i></a></div>
         </article>
         <article class="card-projeto anima" data-atraso="2">
-          <img src="/assets/img/projeto-3.svg" alt="Reforma de loja" loading="lazy">
-          <div class="card-projeto__info"><div><span>Comerciais</span><h3>Reforma de loja</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
+          <img src="/assets/img/fotos/atuacao-construcao-edificios-800.webp" srcset="/assets/img/fotos/atuacao-construcao-edificios-480.webp 480w, /assets/img/fotos/atuacao-construcao-edificios-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="Edifícios em construção com gruas" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>Construção</span><h3>Edifícios e casas</h3></div><a href="/construcao/" class="seta" aria-label="Ver Construção"><i class="fa-solid fa-arrow-right"></i></a></div>
         </article>
         <article class="card-projeto anima" data-atraso="0">
-          <img src="/assets/img/projeto-4.svg" alt="Galpão logístico" loading="lazy">
-          <div class="card-projeto__info"><div><span>Galpões</span><h3>Galpão logístico</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
+          <img src="/assets/img/fotos/atuacao-vistorias-800.webp" srcset="/assets/img/fotos/atuacao-vistorias-480.webp 480w, /assets/img/fotos/atuacao-vistorias-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="Técnicos inspecionando equipamentos na obra" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>Vistorias e Inspeções</span><h3>Inspeção técnica</h3></div><a href="/vistorias-e-inspecoes/" class="seta" aria-label="Ver Vistorias e Inspeções"><i class="fa-solid fa-arrow-right"></i></a></div>
         </article>
         <article class="card-projeto anima" data-atraso="1">
-          <img src="/assets/img/projeto-2.svg" alt="Edifício residencial" loading="lazy">
-          <div class="card-projeto__info"><div><span>Edifícios</span><h3>Edifício residencial</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
+          <img src="/assets/img/fotos/atuacao-estrutura-800.webp" srcset="/assets/img/fotos/atuacao-estrutura-480.webp 480w, /assets/img/fotos/atuacao-estrutura-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="Profissional montando armadura de aço" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>Recuperação e Manutenção</span><h3>Estrutura e reforço</h3></div><a href="/recuperacao-e-manutencao/" class="seta" aria-label="Ver Recuperação e Manutenção"><i class="fa-solid fa-arrow-right"></i></a></div>
         </article>
         <article class="card-projeto anima" data-atraso="2">
-          <img src="/assets/img/projeto-6.svg" alt="Reforma de clínica" loading="lazy">
-          <div class="card-projeto__info"><div><span>Saúde</span><h3>Reforma de clínica</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
+          <img src="/assets/img/fotos/atuacao-terraplenagem-800.webp" srcset="/assets/img/fotos/atuacao-terraplenagem-480.webp 480w, /assets/img/fotos/atuacao-terraplenagem-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="Vista aérea de terraplenagem com máquinas" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>Construção</span><h3>Fundações e terraplenagem</h3></div><a href="/construcao/fundacoes-contencoes-e-terraplenagem/" class="seta" aria-label="Ver Construção"><i class="fa-solid fa-arrow-right"></i></a></div>
         </article>
       </div>
     </div>

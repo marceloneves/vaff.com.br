@@ -116,7 +116,7 @@ def menu_mobile():
 # ===========================================================================
 # Cabeçalho e rodapé
 # ===========================================================================
-def head(titulo, desc, atual="", ld=None, url=None, noindex=False):
+def head(titulo, desc, atual="", ld=None, url=None, noindex=False, extra=""):
     ld_html = "\n  ".join(jsonld(x) for x in (ld or []))
     if url and noindex:
         NOINDEX.add(url)
@@ -141,7 +141,7 @@ def head(titulo, desc, atual="", ld=None, url=None, noindex=False):
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,400..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css">{extra}
   {ld_html}
 </head>
 <body>
@@ -377,12 +377,12 @@ NOINDEX = set()
 # ===========================================================================
 def pagina_home():
     slides = [
-        ("hero-1", "Engenharia de alto padrão", "Engenharia de alto padrão, <span>livre de dor de cabeça</span>", "Construção, reformas, projetos e laudos técnicos na Grande Florianópolis, com conformidade legal, segurança estrutural e tranquilidade do início ao fim.", "h1"),
-        ("hero-3", "Construção e reformas", "Obras de alto padrão, <span>das pranchas à entrega</span>", "Gestão, cronograma e acompanhamento técnico em cada etapa para você não precisar se preocupar com a obra.", "h2"),
-        ("hero-2", "Laudos e vistorias", "Laudos que trazem <span>segurança</span> e respaldo", "Laudos estruturais, vistorias de entrega, inspeção predial e perícias com responsabilidade técnica e ART.", "h2"),
+        ("hero-obra-amanhecer", "Engenharia de alto padrão", "Engenharia de alto padrão, <span>livre de dor de cabeça</span>", "Construção, reformas, projetos e laudos técnicos na Grande Florianópolis, com conformidade legal, segurança estrutural e tranquilidade do início ao fim.", "h1"),
+        ("hero-engenheiros-predio", "Construção e reformas", "Obras de alto padrão, <span>das pranchas à entrega</span>", "Gestão, cronograma e acompanhamento técnico em cada etapa para você não precisar se preocupar com a obra.", "h2"),
+        ("hero-equipe-topografia", "Laudos e vistorias", "Laudos que trazem <span>segurança</span> e respaldo", "Laudos estruturais, vistorias de entrega, inspeção predial e perícias com responsabilidade técnica e ART.", "h2"),
     ]
     hero = "\n".join(f'''    <div class="hero__slide{' ativo' if i == 0 else ''}">
-      <div class="hero__bg" style="background-image:url('/assets/img/{img}.svg')"></div>
+      <div class="hero__bg" style="--bg-lg:url('/assets/img/fotos/{img}-1920.webp');--bg-sm:url('/assets/img/fotos/{img}-960.webp')"></div>
       <div class="container">
         <div class="hero__conteudo">
           <span class="hero__etiqueta"><i class="fa-solid fa-helmet-safety"></i> {tag}</span>
@@ -398,10 +398,21 @@ def pagina_home():
 
     perfis = "\n".join(f'''        <a href="/para-voce/#{s}" class="card-perfil anima" data-atraso="{i % 4}"><i class="{ic}"></i><h3>{n}</h3><p>{d}</p></a>''' for i, (s, n, ic, d, _) in enumerate(PERFIS))
 
+    atuacao = [  # fotos ilustrativas (banco de imagens), ligadas às áreas de atuação
+        ("atuacao-projetos", "Projetos de Engenharia", "Projetos compatibilizados", "/projetos/", "Engenheiros analisando projetos sobre a mesa"),
+        ("atuacao-gestao-obras", "Gestão de Obras", "Fiscalização no canteiro", "/gestao-de-obras/", "Engenheiros conferindo a planta no canteiro de obras"),
+        ("atuacao-construcao-edificios", "Construção", "Edifícios e casas", "/construcao/", "Edifícios em construção com gruas"),
+        ("atuacao-vistorias", "Vistorias e Inspeções", "Inspeção técnica", "/vistorias-e-inspecoes/", "Técnicos inspecionando equipamentos na obra"),
+        ("atuacao-estrutura", "Recuperação e Manutenção", "Estrutura e reforço", "/recuperacao-e-manutencao/", "Profissional montando armadura de aço"),
+        ("atuacao-terraplenagem", "Construção", "Fundações e terraplenagem", I.url_por_palavra("Fundações, contenções e terraplenagem", "/construcao/"), "Vista aérea de terraplenagem com máquinas"),
+    ]
     obras = "\n".join(f'''        <article class="card-projeto anima" data-atraso="{i % 3}">
-          <img src="/assets/img/{img}.svg" alt="{t}" loading="lazy">
-          <div class="card-projeto__info"><div><span>{dict(OBRAS_CATEGORIAS)[c]}</span><h3>{t}</h3></div><a href="/obras/" class="seta" aria-label="Ver obras"><i class="fa-solid fa-arrow-right"></i></a></div>
-        </article>''' for i, (img, c, t) in enumerate(OBRAS))
+          <img src="/assets/img/fotos/{img}-800.webp" srcset="/assets/img/fotos/{img}-480.webp 480w, /assets/img/fotos/{img}-800.webp 800w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 380px" width="800" height="720" alt="{alt}" loading="lazy" decoding="async">
+          <div class="card-projeto__info"><div><span>{cat}</span><h3>{t}</h3></div><a href="{link}" class="seta" aria-label="Ver {cat}"><i class="fa-solid fa-arrow-right"></i></a></div>
+        </article>''' for i, (img, cat, t, link, alt) in enumerate(atuacao))
+    preload = """
+  <link rel="preload" as="image" href="/assets/img/fotos/hero-obra-amanhecer-1920.webp" media="(min-width: 768px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/img/fotos/hero-obra-amanhecer-960.webp" media="(max-width: 767px)" fetchpriority="high">"""
 
     depo = [("MR", "Mariana R.", "Síndica — Condomínio residencial", "O laudo de inspeção predial foi claro e objetivo. Conseguimos priorizar a manutenção e apresentar tudo na assembleia com segurança."),
             ("CA", "Carlos A.", "Proprietário — Reforma comercial", "Precisávamos reformar e regularizar a loja com prazo apertado. A VAFF cuidou de tudo e nos manteve informados em cada etapa."),
@@ -414,7 +425,7 @@ def pagina_home():
 
     html = head("VAFF Engenharia — Construção, reformas, projetos e laudos em Florianópolis",
                 "Engenharia de alto padrão livre de dor de cabeça: construção, reformas, projetos, laudos, vistorias e regularização na Grande Florianópolis e em SC.",
-                "/", [org_ld()]) + f'''
+                "/", [org_ld()], url="/", extra=preload) + f'''
   <main>
   <section class="hero" aria-label="Destaques">
 {hero}
@@ -437,8 +448,8 @@ def pagina_home():
   <section class="secao">
     <div class="container sobre__grid">
       <div class="sobre__imagens anima">
-        <img class="img-principal" src="/assets/img/sobre-1.svg" alt="Equipe VAFF em obra" loading="lazy">
-        <img class="img-secundaria" src="/assets/img/sobre-2.svg" alt="Vistoria técnica" loading="lazy">
+        <img class="img-principal" src="/assets/img/fotos/sobre-supervisor-equipe-800.webp" srcset="/assets/img/fotos/sobre-supervisor-equipe-480.webp 480w, /assets/img/fotos/sobre-supervisor-equipe-800.webp 800w" sizes="(max-width: 991px) 90vw, 520px" width="800" height="880" alt="Engenheiro revisando o projeto com a equipe na obra" loading="lazy" decoding="async">
+        <img class="img-secundaria" src="/assets/img/fotos/sobre-capacete-tijolos-600.webp" srcset="/assets/img/fotos/sobre-capacete-tijolos-360.webp 360w, /assets/img/fotos/sobre-capacete-tijolos-600.webp 600w" sizes="(max-width: 767px) 50vw, 300px" width="600" height="600" alt="Capacete de segurança sobre tijolos" loading="lazy" decoding="async">
         <div class="selo-experiencia"><strong>{ANOS}</strong><span>anos de<br>experiência</span></div>
       </div>
       <div class="sobre__texto anima" data-atraso="1">
@@ -507,8 +518,8 @@ def pagina_home():
   <section class="secao">
     <div class="container">
       <div class="projetos__topo">
-        {titulo_secao("Obras", "Obras que falam por <span>nós</span>", centro=False)}
-        <a href="/obras/" class="btn btn--escuro">Ver portfólio <i class="fa-solid fa-arrow-right"></i></a>
+        {titulo_secao("Nossa atuação", "Engenharia em cada <span>etapa da obra</span>", centro=False)}
+        <a href="/servicos/" class="btn btn--escuro">Ver todos os serviços <i class="fa-solid fa-arrow-right"></i></a>
       </div>
       <div class="projetos__grid">
 {obras}

@@ -1608,3 +1608,9 @@ a.card-regiao:hover i { color: var(--cor-destaque); }
 @media (max-width: 767px) {
   .links__grid, .termos__grid { grid-template-columns: 1fr; }
 }
+
+/* Hero com foto: versão leve no celular */
+.hero__bg { background-image: var(--bg-lg); background-color: var(--cor-escura); }
+@media (max-width: 767px) { .hero__bg { background-image: var(--bg-sm); } }
+.sobre__imagens img, .card-projeto img { height: auto; background: var(--cor-clara); }
+.card-projeto img { height: 100%; }
